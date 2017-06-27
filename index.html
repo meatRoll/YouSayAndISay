@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title></title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+	<script>
+		document.documentElement.style.fontSize = window.screen.width / 10 + 'px';
+	</script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'microsoft yahei';
+		}
+
+		a,
+		span {
+			text-decoration: none;
+			-webkit-tap-highlight-color: transparent;
+		}
+
+		ul,
+		ol {
+			list-style: none;
+		}
+
+		input {
+			border: none;
+			outline: none;
+		}
+
+		img {
+			display: block;
+		}
+
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.clearfix::before,
+		.clearfix::after {
+			content: '';
+			visibility: hidden;
+			clear: both;
+			line-height: 0;
+			height: 0;
+			display: block;
+		}
+
+		.f_l {
+			float: left;
+		}
+
+		.f_r {
+			float: right;
+		}
+
+		.container {
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			transition: 0.5s;
+		}
+
+		.top {
+			width: 100%;
+			height: 1.5rem;
+			background-color: #999;
+			padding: 0 0.5rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.top h1 {
+			line-height: 1.5rem;
+			font-size: 0.95rem;
+			color: #f0f0f0;
+		}
+
+		.top .setting {
+			width: 1.2rem;
+			height: 1.2rem;
+			background: url('images/setting.png') no-repeat center/100%;
+		}
+
+		.message {
+			flex: 1;
+			overflow-y: scroll;
+			padding: 0 0.3rem;
+			box-sizing: border-box;
+			padding-top: 0.2rem;
+		}
+
+		.control {
+			width: 100%;
+			height: 1.7rem;
+			overflow: hidden;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			background-color: #999;
+		}
+
+		.inputBox {
+			width: 75%;
+			height: 1.3rem;
+			line-height: 1.3rem;
+			border-radius: 0.2rem;
+			font-size: 0.6rem;
+			text-indent: 0.2rem;
+		}
+
+		.sendButton {
+			width: 18%;
+			height: 1.3rem;
+			line-height: 1.3rem;
+			text-align: center;
+			background-color: #fff;
+			border-radius: 0.3rem;
+			color: #333;
+			font-weight: 700;
+			font-size: 0.6rem;
+			cursor: pointer;
+		}
+
+		.message>div>a {
+			width: 1.35rem;
+			height: 1.35rem;
+			border-radius: 50%;
+			background-color: skyblue;
+			text-align: center;
+			line-height: 1.35rem;
+			color: white;
+			font-size: 0.8rem;
+			font-weight: 700;
+		}
+
+		.message>.robot>a {
+			background: url('images/逗逼肉丸.png') no-repeat center/1.35rem;
+		}
+
+		.message>.self>a {
+			background-color: yellowgreen;
+		}
+
+		.message>div {
+			padding: 0.1rem 0;
+			display: none;
+		}
+
+		.message>div>p {
+			max-width: 7.5rem;
+			min-height: 1.5rem;
+			margin: 0 0.25rem;
+			padding: 0.25rem;
+			line-height: 1rem;
+			background-color: #ccc;
+			border-radius: 10px;
+			word-break: break-all;
+			position: relative;
+			font-weight: 400;
+			color: white;
+			font-size: 0.5rem;
+		}
+
+		.message>.robot>p {
+			background-color: skyblue;
+		}
+
+		.message>.robot>p::before {
+			content: '';
+			position: absolute;
+			border-top: 0.15rem solid transparent;
+			border-bottom: 0.15rem solid transparent;
+			border-right: 0.15rem solid skyblue;
+			left: -0.14rem;
+			top: 0.5rem;
+		}
+
+		.message>.self>p {
+			color: black;
+		}
+
+		.message>.self>p::before {
+			content: '';
+			position: absolute;
+			border-top: 0.15rem solid transparent;
+			border-bottom: 0.15rem solid transparent;
+			border-left: 0.15rem solid #ccc;
+			right: -0.14rem;
+			top: 0.5rem;
+		}
+
+		.moveLeft {
+			transform: translateX(-5rem);
+		}
+
+		.settingBox {
+			width: 5rem;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			right: -5rem;
+			background-color: #848484;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.settingBox h2 {
+			width: 100%;
+			height: 1.5rem;
+			font-size: 0.95rem;
+			text-indent: 0.5rem;
+			line-height: 1.5rem;
+		}
+
+		.settingBox ul {
+			flex: 1;
+			width: 100%;
+		}
+
+		.settingBox ul li {
+			width: 100%;
+			min-height: 1.5rem;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			font-size: 0.5rem;
+		}
+
+		.settingBox ul li input {
+			width: 0.5rem;
+			height: 0.5rem;
+			margin: 0 0.3rem;
+		}
+
+		.settingBox ul li label {
+			flex: 1;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="top">
+			<h1>MeatRoll</h1>
+			<a href="javascript:void(0);" class="setting"></a>
+		</div>
+		<div class="message">
+			<!-- 机器人的聊天框 -->
+			<div class="robot clearfix">
+				<a href="javascript:void(0);" class='f_l'></a>
+				<p class='f_l'></p>
+			</div>
+			<!-- 自己的聊天框 -->
+			<div class="self clearfix">
+				<a href="javascript:void(0);" class="f_r">我</a>
+				<p class="f_r"></p>
+			</div>
+		</div>
+		<div class="control">
+			<input type="text" class='inputBox'>
+			<input type="button" class='sendButton' value='send'>
+		</div>
+		<div class="settingBox">
+			<h2>Setting</h2>
+			<ul>
+				<li>
+					<input type="checkbox" id="sendChoice1"><label for="sendChoice1">Send By 'Enter'</label>
+				</li>
+				<li>
+					<input type="checkbox" id="sendChoice2"><label for="sendChoice2">Send By 'Ctrl+Enter'</label>
+				</li>
+			</ul>
+		</div>
+</body>
+
+</html>
+
+<script>
+	window.onload = function () {
+		var robotBox = document.querySelector('.robot');
+		var selfBox = document.querySelector('.self');
+		var textBox = document.querySelector('.inputBox');
+		var messageBox = document.querySelector('.message');
+		var btn = document.querySelector('.sendButton');
+		var container = document.querySelector('.container');
+		var checkBox = document.querySelectorAll('input[type=\'checkbox\']');
+
+		// 让机器人讲点什么
+		setTimeout(function () {
+			robotSay('好想说的点什么😈');
+		}, 1000);
+
+		btn.onclick = function () {
+			// 如果输入内容为空，则不做任何操作
+			if (textBox.value === '') return;
+
+			// 将输入得内容发送出去
+			var selfBoxClone = selfBox.cloneNode(true);
+			selfBoxClone.style.display = 'block';
+			selfBoxClone.querySelector('p').textContent = textBox.value;
+			messageBox.appendChild(selfBoxClone);
+
+			// 将内容发送给服务器
+			var xhr = new XMLHttpRequest;
+			xhr.open('post', 'http://www.tuling123.com/openapi/api');
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+			xhr.onload = function () {
+				// 获得服务器返回的内容并加载出来
+				eval('var response = ' + xhr.responseText);
+
+				// 让机器人讲话
+				robotSay(response['text']);
+
+				// 滚动条滚动到最底部
+				messageBox.scrollTop = 99999999999;
+			};
+			xhr.send('key=4eaf1e4af9ec47119006902d47ba2117&info=' + textBox.value);
+
+			// 清空输入框的内容
+			textBox.value = '';
+
+			// 滚动条滚动到最底部
+			messageBox.scrollTop = 99999999999;
+		};
+
+		// 创建一个数组保存数据
+		var arrFor2 = [];
+
+		// 设置选项，设置只能单独选中一个
+		for (var i = 0; i < checkBox.length; i++) {
+			checkBox[i].index = i;
+			checkBox[i].onclick = function (event) {
+				if (this.checked) {
+					for (var i = 0; i < checkBox.length; i++) {
+						checkBox[i].checked = false;
+					}
+					this.checked = true;
+					if (this.index == 0) {
+						// 输入框使用enter发送信息
+						textBox.onkeydown = function (event) {
+							if (event.keyCode == 13) btn.click();
+						};
+					} else if (this.index == 1) {
+						// 输入框使用Ctrl和enter发送信息
+						textBox.onkeydown = function (event) {
+							// 键盘弹起就清空数组
+							this.onkeyup = function () {
+								arrFor2 = [];
+							};
+							// 如果数组长度为0，就把键值保存进数组
+							if (arrFor2.length == 0) {
+								if (event.keyCode == 17) arrFor2.push(true);
+							} else {
+								if (event.keyCode == 13) btn.click();
+								arrFor2 = [];
+							}
+						};
+					}
+				}
+			};
+		}
+
+		// 如果两个选项都是flase，则清空onkeydown的事件
+		if (!checkBox[0].checked && !checkBox[1].checked) textBox.onkeydown = null;
+
+		// 展开或收起设置栏
+		document.querySelector('.setting').onclick = function () {
+			container.classList.toggle('moveLeft');
+		};
+
+		// 机器人说话的函数
+		function robotSay(text) {
+			var robotBoxClone = robotBox.cloneNode(true);
+			robotBoxClone.style.display = 'block';
+			robotBoxClone.querySelector('p').textContent = text;
+			messageBox.appendChild(robotBoxClone);
+		}
+	};
+</script>
